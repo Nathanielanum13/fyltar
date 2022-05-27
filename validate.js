@@ -21,7 +21,11 @@ const VALIDATION_MSG = {
     },
     is_integer: {
         passed: 'Integer validation successful',
-        failed: 'Yhe value provided is not a valid integer'
+        failed: 'The value provided is not a valid integer'
+    },
+    is_not_integer: {
+        passed: 'Not integer validation successful',
+        failed: 'The value provided failed validation test'
     }
 }
 
@@ -71,8 +75,7 @@ export const validate = (target, rules = '', matchers = [], customValidationMess
             hasPassedValidation = hasPassedValidation && isValid
             validationResponse = { 
                 ...validationResponse,
-                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed'),
-        
+                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed')
             }
         }
 
@@ -81,18 +84,22 @@ export const validate = (target, rules = '', matchers = [], customValidationMess
             hasPassedValidation = hasPassedValidation && isValid
             validationResponse = { 
                 ...validationResponse,
-                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed'),
-        
+                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed')
             }
         }
 
         if (rule === 'is_not_null') {
-            let isValid = target ? true : target === '' ? true : typeof target === 'undefined' ? true : target === 0 ? true : false
+            let isValid = false
+
+            if (target === false) {
+                isValid = true
+            } else {
+                isValid = target ? true : target === '' ? true : typeof target === 'undefined' ? true : target === 0 ? true : false
+            }
             hasPassedValidation = hasPassedValidation && isValid
             validationResponse = { 
                 ...validationResponse,
-                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed'),
-        
+                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed')
             }
         }
 
@@ -101,8 +108,43 @@ export const validate = (target, rules = '', matchers = [], customValidationMess
             hasPassedValidation = hasPassedValidation && isValid
             validationResponse = { 
                 ...validationResponse,
-                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed'),
-        
+                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed')
+            }
+        }
+
+        if (rule === 'is_integer') {
+            let isValid = Number.isInteger(target)
+            hasPassedValidation = hasPassedValidation && isValid
+            validationResponse = { 
+                ...validationResponse,
+                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed')
+            }
+        }
+
+        if (rule === 'is_not_integer') {
+            let isValid = !Number.isInteger(target)
+            hasPassedValidation = hasPassedValidation && isValid
+            validationResponse = { 
+                ...validationResponse,
+                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed')
+            }
+        }
+
+        if (rule === 'is_bool') {
+            let isValid = typeof target === 'boolean'
+            hasPassedValidation = hasPassedValidation && isValid
+            validationResponse = { 
+                ...validationResponse,
+                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed')
+            }
+        }
+
+        if (rule === 'is_not_bool') {
+            let isValid = typeof target !== 'boolean'
+            hasPassedValidation = hasPassedValidation && isValid
+            validationResponse = { 
+                ...validationResponse,
+                ...standardValidationResponse(rule, isValid, validationMessage[rule]?.passed || 'Validation Passed', validationMessage[rule]?.failed || 'Validation Failed')
             }
         }
 

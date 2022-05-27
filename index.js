@@ -30,8 +30,8 @@ const filterParameters = {
 const filter = (filterParameters = {}) => {
     // 1. Validate function arguments
     // filterParameters.arr && validate(filterParameters.arr, 'is_array|is_not_empty')
-    let value = 1
-    console.log(value, validate(value, 'is_not_null|is_string|is_null'))
+    let value = false
+    console.log(value, validate(value, 'is_not_null|is_string|is_not_integer|is_not_bool|is_bool'))
 }
 
 const validator = (target, rules = 'is_string') => {
